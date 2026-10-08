@@ -1,0 +1,9 @@
+Flask
+neo4j
+numpy
+pandas
+psutil
+python-dotenv
+requests
+scikit-learn
+scipy

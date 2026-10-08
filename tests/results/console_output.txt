@@ -1,0 +1,11 @@
+--- KOLLABORATÍV EVALUÁCIÓ EREDMÉNYEK ---
+Időpont:    2025-12-14 20:46:58
+Minta méret: 500
+-----------------------------------------
+Precision:  6.35%
+Recall:     4.43%
+F1-Score:   0.0500
+nDCG:       0.0598
+MRR:        0.1320
+-----------------------------------------
+[INFO] A mérés offline kiértékeléssel, rejtett teszthalmazon történt.

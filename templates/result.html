@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>A Neked Ajánlott Könyvek</title>
+    <style>
+        :root {
+            --bg-color: #fdfcf5;
+            --primary-brown: #5d4037;
+            --accent-gold: #d4a017;
+            --text-main: #3e2723;
+            --card-bg: #fff;
+        }
+
+        body {
+            font-family: 'Book Antiqua', serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 40px;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-brown);
+            border-bottom: 2px solid var(--accent-gold);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--primary-brown);
+            font-weight: bold;
+            margin-bottom: 20px;
+            border: 1px solid var(--primary-brown);
+            padding: 10px 20px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background: var(--primary-brown);
+            color: #fff;
+        }
+
+        .bookshelf {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+            padding: 20px 0;
+        }
+
+        .book-card {
+            background: var(--card-bg);
+            border: 1px solid #d7ccc8;
+            border-radius: 6px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(93, 64, 55, 0.2);
+            border-color: var(--accent-gold);
+        }
+
+        .book-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: var(--primary-brown);
+        }
+
+        .book-author {
+            font-size: 0.9em;
+            color: #8d6e63;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .match-score {
+            margin-top: auto;
+            font-size: 0.85em;
+            font-weight: bold;
+            color: var(--accent-gold);
+            text-align: right;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        .no-results {
+            text-align: center;
+            grid-column: 1 / -1;
+            font-size: 1.2em;
+            color: #8d6e63;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="/" class="back-btn">← Vissza a kereséshez</a>
+    
+    <h1>Az Neked Ajánlott Könyvek</h1>
+
+    <div class="bookshelf">
+        {% if books %}
+            {% for book in books %}
+            <div class="book-card">
+                <div>
+                    <div class="book-title">{{ book.title }}</div>
+                    <div class="book-author">{{ book.authors }}</div>
+                </div>
+                <div class="match-score">Relevancia: {{ book.score | round(1) }}</div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-results">Sajnos nem találtunk könyvet ezekkel a beállításokkal. Próbálj lazítani a szűrésen!</div>
+        {% endif %}
+    </div>
+
+</body>
+</html>

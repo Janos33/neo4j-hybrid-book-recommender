@@ -1,0 +1,47 @@
+=== KOMPLEX TELJESÍTMÉNY ÉS ERŐFORRÁS TESZT ===
+Dátum: 2025-12-15 06:32:18
+Ismétlések száma: 20
+=================================================
+
+TESZT: Alapállapot (Baseline) (T1)
+----------------------------------------
+Válaszidő (Latency):
+  Átlag: 185.99 ms
+  Min:   168.93 ms
+  Max:   233.59 ms
+
+Erőforrás (Resource):
+  Átlagos CPU: 2.9 %
+  Csúcs CPU:   8.0 %
+  Átlagos RAM: 719.00 MB
+  Csúcs RAM:   719.05 MB
+----------------------------------------
+
+TESZT: Komplex Gráf Szűrés (T2)
+----------------------------------------
+Válaszidő (Latency):
+  Átlag: 25.10 ms
+  Min:   18.77 ms
+  Max:   98.52 ms
+
+Erőforrás (Resource):
+  Átlagos CPU: 2.6 %
+  Csúcs CPU:   6.0 %
+  Átlagos RAM: 719.05 MB
+  Csúcs RAM:   719.05 MB
+----------------------------------------
+
+TESZT: Hibrid Matek (Full Load) (T3)
+----------------------------------------
+Válaszidő (Latency):
+  Átlag: 236.61 ms
+  Min:   180.70 ms
+  Max:   445.88 ms
+
+Erőforrás (Resource):
+  Átlagos CPU: 41.9 %
+  Csúcs CPU:   57.9 %
+  Átlagos RAM: 760.10 MB
+  Csúcs RAM:   874.21 MB
+----------------------------------------
+

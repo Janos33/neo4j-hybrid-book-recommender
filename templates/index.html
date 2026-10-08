@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Könyvajánló</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <form id="recommendForm">
+    <h2>Könyvajánló Rendszer</h2>
+    <p class="subtitle">Állítsd be a szűrési feltételeket és preferenciáidat.</p>
+
+    <h3 class="category-title">Megkötések</h3>
+    <p style="font-size: 0.9em; color: #8d6e63; margin-top: -15px; margin-bottom: 25px; font-style: italic;">
+      Szigorú szabályok. Csak azokat a könyveket mutatjuk, amik ezeknek 100%-ban megfelelnek.
+    </p>
+    
+    <div class="form-section">
+      <div class="header-row">
+        <label>Korcsoport</label>
+        <div class="switch-wrapper">
+            <span id="ageToggleLabel" class="switch-label">Kikapcsolva</span>
+            <label class="switch">
+                <input type="checkbox" id="ageToggle">
+                <span class="slider-switch"></span>
+            </label>
+        </div>
+      </div>
+      <div id="ageContent" class="input-content disabled-input">
+        <div class="autocomplete-container">
+            <div class="tags" id="selectedAgeContainer">
+                <input type="text" id="ageSearch" autocomplete="off" placeholder="Kinek keresel könyvet?">
+            </div>
+            <div id="listAge" class="autocomplete-list"></div>
+        </div>
+        <p style="font-size:0.8em; color:#8d6e63; margin-top:5px;">
+            A korcsoport(ok) által gyakran értékelt könyvek kerülnek kiválasztásra.
+        </p>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="header-row">
+        <label>Korszak (Kiadás éve)</label>
+        <div class="switch-wrapper">
+            <span id="pubToggleLabel" class="switch-label">Kikapcsolva</span>
+            <label class="switch">
+                <input type="checkbox" id="pubToggle">
+                <span class="slider-switch"></span>
+            </label>
+        </div>
+      </div>
+      <div id="pubContent" class="input-content disabled-input">
+        <div class="year-range-container">
+            <div style="flex: 1;">
+                <input type="number" id="yearStart" placeholder="Kezdet (pl. -500)" min="-4000" max="2030" class="clean-number-input">
+            </div>
+            <span style="font-weight: bold; color: var(--text-muted); font-size: 1.2em;">&mdash;</span>
+            <div style="flex: 1;">
+                <input type="number" id="yearEnd" placeholder="Vége (pl. 2000)" min="-4000" max="2030" class="clean-number-input">
+            </div>
+        </div>
+        <p style="font-size:0.8em; color:#8d6e63; margin-top:5px;">
+            Hagyd üresen az egyik oldalt, ha csak minimális vagy maximális évet szeretnél.
+        </p>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="header-row">
+        <label>Konkrét íróktól</label>
+        <div class="switch-wrapper">
+            <span id="constAuthorToggleLabel" class="switch-label">Kikapcsolva</span>
+            <label class="switch">
+                <input type="checkbox" id="constAuthorToggle">
+                <span class="slider-switch"></span>
+            </label>
+        </div>
+      </div>
+      <div id="constAuthorContent" class="input-content disabled-input">
+        <div class="autocomplete-container">
+          <div class="tags" id="selectedConstAuthorsContainer">
+            <input type="text" id="constAuthorSearch" autocomplete="off" placeholder="Csak ezektől az íróktól...">
+          </div>
+          <div id="autocompleteListConstAuthors" class="autocomplete-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="header-row">
+        <label>Kötelező műfajok</label>
+        <div class="switch-wrapper">
+            <span id="constGenreToggleLabel" class="switch-label">Kikapcsolva</span>
+            <label class="switch">
+                <input type="checkbox" id="constGenreToggle">
+                <span class="slider-switch"></span>
+            </label>
+        </div>
+      </div>
+      <div id="constGenreContent" class="input-content disabled-input">
+        <div class="autocomplete-container">
+          <div class="tags" id="selectedConstGenresContainer">
+            <input type="text" id="constGenreSearch" autocomplete="off" placeholder="Csak ezeket a műfajokat mutasd...">
+          </div>
+          <div id="autocompleteListConstGenres" class="autocomplete-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="category-title">Kizárások</h3>
+    <p style="font-size: 0.9em; color: #8d6e63; margin-top: -15px; margin-bottom: 25px; font-style: italic;">
+      Feketelista. Amit itt megadsz, azt biztosan elrejtjük előled.
+    </p>
+
+    <div class="form-section">
+      <div class="header-row">
+        <label>Kizárt írók</label>
+        <div class="switch-wrapper">
+            <span id="exclAuthorToggleLabel" class="switch-label">Kikapcsolva</span>
+            <label class="switch">
+                <input type="checkbox" id="exclAuthorToggle">
+                <span class="slider-switch"></span>
+            </label>
+        </div>
+      </div>
+      <div id="exclAuthorContent" class="input-content disabled-input">
+        <div class="autocomplete-container">
+          <div class="tags" id="selectedExclAuthorsContainer">
+            <input type="text" id="exclAuthorSearch" autocomplete="off" placeholder="Soha ne ajánlj tőlük...">
+          </div>
+          <div id="autocompleteListExclAuthors" class="autocomplete-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="header-row">
+        <label>Kizárt műfajok</label>
+        <div class="switch-wrapper">
+            <span id="exclGenreToggleLabel" class="switch-label">Kikapcsolva</span>
+            <label class="switch">
+                <input type="checkbox" id="exclGenreToggle">
+                <span class="slider-switch"></span>
+            </label>
+        </div>
+      </div>
+      <div id="exclGenreContent" class="input-content disabled-input">
+        <div class="autocomplete-container">
+          <div class="tags" id="selectedExclGenresContainer">
+            <input type="text" id="exclGenreSearch" autocomplete="off" placeholder="Soha ne ajánlj ilyeneket...">
+          </div>
+          <div id="autocompleteListExclGenres" class="autocomplete-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="category-title">Preferenciák</h3>
+    <p style="font-size: 0.9em; color: #8d6e63; margin-top: -15px; margin-bottom: 25px; font-style: italic;">
+      Finomhangolás. Mi az, ami érdekel? (Minél nagyobb a súly, annál fontosabb).
+    </p>
+    
+    <div class="form-section" style="background-color: #fdfcf5; border: 1px solid var(--accent-gold);">
+      
+      <div class="header-row">
+        <label>Tartalmi hasonlóság (Content)</label>
+        <div class="slider-wrapper">
+          <input type="range" id="contentWeight" min="0" max="100" value="0">
+          <span id="contentVal">Súly: 0%</span>
+        </div>
+      </div>
+      <p style="font-size:0.9em; color:#5d4037; margin-top:-10px; margin-bottom:15px; line-height: 1.4;">
+        <strong>Miről szól?</strong> A rendszer a könyv tartalmát, műfaját és íróját nézi. Olyan, mintha a fülszövegek alapján válogatnál.
+        <br><span style="font-size:0.85em; color:#8d6e63;">(Ez aktiválja a Műfaj, Író és Hasonló Könyvek mezőket).</span>
+      </p>
+
+      <div class="header-row">
+        <label>Közösségi hasonlóság (Collaborative)</label>
+        <div class="slider-wrapper">
+          <input type="range" id="collabWeight" min="0" max="100" value="0">
+          <span id="collabVal">Súly: 0%</span>
+        </div>
+      </div>
+      <p style="font-size:0.9em; color:#5d4037; margin-top:-10px; margin-bottom:0px; line-height: 1.4;">
+        <strong>Kik szerették?</strong> A rendszer a többi olvasó ízlését elemzi. Ha sokan szerették egyszerre azt amit te és egy új könyvet, akkor azt ajánlani fogja.
+        <br><span style="font-size:0.85em; color:#8d6e63;">(Ez aktiválja a Hasonló Könyvek mezőt).</span>
+      </p>
+    </div>
+
+    <div class="form-section">
+        <div class="header-row"><label>Kedvelt műfajok</label></div>
+        <div id="genreContent" class="input-content disabled-input">
+            <div class="autocomplete-container">
+                <div class="tags" id="selectedGenresContainer">
+                    <input type="text" id="genreSearch" autocomplete="off" placeholder="Pl. Fantasy, Történelmi...">
+                </div>
+                <div id="autocompleteListGenres" class="autocomplete-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <div class="header-row"><label>Kedvelt írók</label></div>
+        <div id="prefAuthorContent" class="input-content disabled-input">
+            <div class="autocomplete-container">
+                <div class="tags" id="selectedPrefAuthorsContainer">
+                    <input type="text" id="prefAuthorSearch" autocomplete="off" placeholder="Pl. Tolkien, Agatha Christie...">
+                </div>
+                <div id="autocompleteListPrefAuthors" class="autocomplete-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-section">
+      <div class="header-row"><label>Hasonló könyvek</label></div>
+      <div id="bookContent" class="input-content disabled-input">
+        <div class="autocomplete-container">
+          <div class="tags" id="selectedBooksContainer">
+            <input type="text" id="bookSearch" autocomplete="off" placeholder="Írj be könyveket, amiket szerettél...">
+          </div>
+          <div id="autocompleteListBooks" class="autocomplete-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="category-title">Finomhangolás</h3>
+
+    <div class="form-section">
+        <div class="header-row">
+            <label>Minőség (Minimum értékelés)</label>
+            <div class="slider-wrapper">
+                <input type="range" id="minRating" min="0" max="50" value="0" step="5">
+                <span id="minRatingVal">Bármi</span>
+            </div>
+        </div>
+        <p style="font-size:0.85em; color:#8d6e63; margin-top:-10px;">Csak az ennél jobb átlagú könyveket listázza.</p>
+
+        <div class="header-row" style="margin-top: 25px;">
+            <label>Felfedezés (Randomitás)</label>
+            <div class="slider-wrapper">
+                <input type="range" id="randomness" min="0" max="100" value="10">
+                <span id="randomnessVal">10%</span>
+            </div>
+        </div>
+        <p style="font-size:0.85em; color:#8d6e63; margin-top:-10px;">Mennyire keverjen be váratlan, kevésbé ismert találatokat?</p>
+
+        <div class="header-row" style="margin-top: 25px;">
+            <label>Találatok száma</label>
+            <input type="number" id="limitInput" value="35" min="1" max="100" class="clean-number-input" style="width: 80px; text-align: center;">
+        </div>
+        <p style="font-size:0.85em; color:#8d6e63; margin-top:-5px;">Maximum 100 könyv.</p>
+    </div>
+
+    <div style="display: flex; gap: 15px; margin-top: 40px;">
+        <button type="button" id="clearFormBtn" style="background: transparent; border: 2px solid #d7ccc8; color: var(--text-muted); flex: 1;">
+            Alaphelyzet
+        </button>
+        <button type="submit" style="flex: 2; margin-top: 0;">
+            Ajánlás Kérése
+        </button>
+    </div>
+  </form>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
